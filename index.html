@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080719">
+<title>VELTRON SOLARIS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080719;color:#f4f2ff;font-family:Tahoma,Arial,sans-serif}
+button{cursor:pointer;color:white;background:#171637;border:1px solid #49417f;padding:10px 13px;border-radius:10px}
+button:hover,.active{border-color:#53e7ff;background:#292054}
+header{position:sticky;top:0;z-index:5;background:#0b0a22ee;backdrop-filter:blur(12px);border-bottom:1px solid #39305e;padding:14px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:bold;letter-spacing:3px;color:#70eaff}
+.logo small{display:block;font-size:9px;letter-spacing:2px;color:#b3a8e7;margin-top:5px}
+main{max-width:1150px;margin:auto;padding:16px}
+.hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;padding:35px 0}
+.eyebrow{color:#55e6ff;font-size:11px;letter-spacing:2px}
+h1{font-size:clamp(35px,6vw,62px);margin:18px 0;line-height:1.3}
+.gradient{background:linear-gradient(90deg,#51e8ff,#a26bff,#ef7cdb);color:transparent;background-clip:text}
+p{line-height:2;color:#b9b8db;font-size:13px}
+.art{height:230px;position:relative;display:grid;place-items:center;border:1px solid #39305e;border-radius:22px;overflow:hidden;background:radial-gradient(circle,#27205a,#0b0a21 70%)}
+.sun{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 30% 25%,white,#ffc16c 35%,#a94bff 80%);box-shadow:0 0 60px #a14aff}
+.orbit{position:absolute;width:240px;height:90px;border:1px solid #9e91ff88;border-radius:50%;transform:rotate(-25deg)}
+.orbit.two{width:320px;height:130px;transform:rotate(35deg)}
+.section-title{margin:30px 0 12px;font-size:19px}
+.layout{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
+.panel{background:#0e0d27;border:1px solid #38305f;border-radius:17px;overflow:hidden;min-width:0}
+.bar{padding:13px;border-bottom:1px solid #302950;color:#55e6ff;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px}
+#space{height:400px;position:relative;background:radial-gradient(ellipse,#17143d,#070719);touch-action:pan-y}
+canvas{width:100%;height:100%;display:block;touch-action:pan-y}
+.controls{position:absolute;top:10px;left:10px;display:grid;gap:5px}
+.controls button{padding:7px;width:34px}
+.hint{position:absolute;bottom:8px;right:8px;left:8px;text-align:center;font-size:10px;color:#aaa5dc;pointer-events:none}
+.info{padding:16px}
+.info h2{margin:0 0 8px;font-size:23px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:15px 0}
+.fact{padding:11px;border:1px solid #302950;background:#14132f;border-radius:10px;overflow-wrap:anywhere}
+.fact span{display:block;color:#aaa7ce;font-size:10px;margin-bottom:8px}
+.fact b{font-size:12px}
+.rows{font-size:11px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #282545}
+.row span{color:#aaa7ce}
+.row b{text-align:left;font-weight:normal}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:10px}
+.nav button{padding:10px 3px;font-size:11px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{padding:15px;border:1px solid #38305f;border-radius:14px;background:#10102b}
+.card h3{font-size:14px}
+.card p{font-size:11px}
+footer{margin-top:30px;border-top:1px solid #38305f;padding:20px 8px;text-align:center;color:#b8b2df;font-size:11px;line-height:2}
+footer strong{color:#e4baff}
+.modal{display:none;position:fixed;inset:0;background:#03020ee8;z-index:10;align-items:center;justify-content:center;padding:15px}
+.modal.open{display:flex}
+.modalbox{max-width:600px;width:100%;max-height:85vh;overflow:auto;background:#11102e;border:1px solid #6351a2;border-radius:17px;padding:18px}
+.modalhead{display:flex;justify-content:space-between;align-items:center}
+.modalbox h3{color:#62eaff}
+@media(max-width:750px){
+.hero{grid-template-columns:1fr;padding:22px 0}
+.art{height:180px;grid-row:1}
+.layout{grid-template-columns:1fr}
+#space{height:340px}
+.cards{grid-template-columns:1fr}
+.nav{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">VELTRON<small>SOLARIS · POWERING THE FUTURE</small></div>
+ <div>
+  <button id="language">FA / EN</button>
+  <button id="help">ⓘ</button>
+ </div>
+</header>
+
+<main>
+<section class="hero">
+ <div>
+  <div class="eyebrow" data="eyebrow">کاوش • یادگیری • کشف</div>
+  <h1 datahtml="title">جهان را<br><span class="gradient">کشف کن.</span></h1>
+  <p data="intro">به منظومه شمسی سفر کن، سیاره‌ها را انتخاب کن و اطلاعات علمی آن‌ها را یاد بگیر.</p>
+  <button id="start" class="active" data="start">شروع کاوش ↓</button>
+  <button id="random" data="random">انتخاب تصادفی ✦</button>
+ </div>
+ <div class="art">
+  <div class="orbit"></div><div class="orbit two"></div><div class="sun"></div>
+ </div>
+</section>
+
+<h2 class="section-title" data="maptitle">نقشه تعاملی منظومه شمسی</h2>
+<p data="mapsub">روی سیاره‌ها بزن؛ برای چرخاندن منظومه، نقشه را بکش.</p>
+
+<div class="layout" id="explorer">
+ <div>
+  <div class="panel">
+   <div class="bar">
+    <span> SOLAR SYSTEM / 01</span>
+    <span data="drag">چرخاندن منظومه</span>
+    <button id="pause">Ⅱ</button>
+    <button id="reset">↺</button>
+   </div>
+   <div id="space">
+    <canvas id="map"></canvas>
+    <div class="controls">
+     <button id="plus">+</button>
+     <button id="minus">−</button>
+    </div>
+    <div class="hint" data="hint">برای مشاهده اطلاعات روی یک سیاره بزن</div>
+   </div>
+  </div>
+  <div class="nav" id="nav"></div>
+ </div>
+
+ <aside class="panel info">
+  <h2 id="pname">زمین</h2>
+  <p id="ptype">سیاره سنگی</p>
+  <p id="desc"></p>
+  <div class="facts" id="facts"></div>
+  <h3 data="keyfacts">اطلاعات کلیدی</h3>
+  <div class="rows" id="rows"></div>
+  <br>
+  <button id="details" class="active" data="details">مشاهده اطلاعات کامل ↗</button>
+ </aside>
+</div>
+
+<h2 class="section-title" data="learn">بیشتر درباره فضا بدان</h2>
+<div class="cards">
+ <article class="card">
+  <div>☀️</div><h3 data="sunhead">خورشید؛ ستاره منظومه</h3>
+  <p data="suntext">خورشید منبع اصلی نور و گرمای منظومه شمسی است و گرانش آن سیاره‌ها را در مدار نگه می‌دارد.</p>
+  <button data-topic="sun" data="read">مطالعه بیشتر</button>
+ </article>
+ <article class="card">
+  <div>🪐</div><h3 data="orbithead">مدارها چگونه کار می‌کنند؟</h3>
+  <p data="orbittext">گرانش و سرعت حرکت اجرام باعث شکل‌گیری مدارهای آن‌ها می‌شود.</p>
+  <button data-topic="orbit" data="read">مطالعه بیشتر</button>
+ </article>
+ <article class="card">
+  <div>🚀</div><h3 data="missionhead">مأموریت‌های فضایی</h3>
+  <p data="missiontext">کاوشگرها با ابزارهای علمی، سطح و جو جهان‌های دور را بررسی می‌کنند.</p>
+  <button data-topic="mission" data="read">مطالعه بیشتر</button>
+ </article>
+</div>
+
+<footer>
+ <strong>ساخته شده توسط رسانه ولترون</strong><br>
+ VELTRON SOLARIS · POWERING THE FUTURE
+</footer>
+</main>
+
+<div class="modal" id="modal">
+ <div class="modalbox">
+  <div class="modalhead"><h2 id="mtitle"></h2><button id="close">✕</button></div>
+  <div id="mbody"></div>
+ </div>
+</div>
+
+<script>
+(()=>{
+"use strict";
+const $=s=>document.querySelector(s);
+let lang="fa",selected="earth",rotation=0,zoom=1,paused=false,drag=false,lastX=0;
+const planets=[
+{id:"sun",fa:"خورشید",en:"Sun",type:"star",color:"#ffbd55",size:13,orbit:0,diameter:"1,392,700 km",distance:"مرکز منظومه",day:"حدود 25 تا 35 روز",year:"—",temp:"حدود 5,500°C",gravity:"274 m/s²",atmos:"هیدروژن و هلیوم",moons:0,desc:"خورشید ستاره مرکزی منظومه شمسی و منبع اصلی نور و گرماست.",descEn:"The Sun is the central star of our Solar System and its main source of light and heat.",extra:"خورشید حدود ۴٫۶ میلیارد سال پیش شکل گرفت. انرژی آن از همجوشی هسته‌ای در هسته تولید می‌شود.",extraEn:"The Sun formed about 4.6 billion years ago. Nuclear fusion in its core produces its energy."},
+{id:"mercury",fa:"عطارد",en:"Mercury",type:"سیاره سنگی",typeEn:"Terrestrial planet",color:"#b7aaa4",size:4,orbit:37,diameter:"4,879 km",distance:"57.9 میلیون km",day:"58.6 روز زمینی",year:"88 روز زمینی",temp:"−180 تا 430°C",gravity:"3.7 m/s²",atmos:"برون‌سپهر بسیار رقیق",moons:0,desc:"کوچک‌ترین سیاره و نزدیک‌ترین سیاره به خورشید است. سطح آن پوشیده از دهانه‌های برخوردی است.",descEn:"The smallest planet and closest to the Sun, Mercury has a heavily cratered surface.",extra:"عطارد قمر ندارد. اختلاف دمای شب و روز در آن بسیار زیاد است.",extraEn:"Mercury has no moons and experiences extreme day-night temperature changes."},
+{id:"venus",fa:"زهره",en:"Venus",type:"سیاره سنگی",typeEn:"Terrestrial planet",color:"#e8bd83",size:7,orbit:56,diameter:"12,104 km",distance:"108.2 میلیون km",day:"243 روز زمینی",year:"225 روز زمینی",temp:"حدود 465°C",gravity:"8.87 m/s²",atmos:"دی‌اکسیدکربن متراکم",moons:0,desc:"زهره داغ‌ترین سیاره منظومه شمسی است. جو متراکم آن گرما را به‌شدت به دام می‌اندازد.",descEn:"Venus is the hottest planet because its dense atmosphere traps heat.",extra:"زهره در جهت مخالف بسیاری از سیاره‌ها می‌چرخد و قمر شناخته‌شده‌ای ندارد.",extraEn:"Venus rotates retrograde and has no known natural moons."},
+{id:"earth",fa:"زمین",en:"Earth",type:"سیاره سنگی",typeEn:"Terrestrial planet",color:"#398fff",size:8,orbit:77,diameter:"12,742 km",distance:"149.6 میلیون km",day:"23 ساعت و 56 دقیقه",year:"365.25 روز",temp:"میانگین 15°C",gravity:"9.81 m
